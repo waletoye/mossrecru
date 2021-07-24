@@ -49,7 +49,7 @@
 
                     <StackLayout Style="{StaticResource StackStyle}">
                         <Label Style="{StaticResource TitleStyle}" Text="By Years Of Experience" />
-                        <Entry Margin="20,20,0,0" Placeholder="input here..." BackgroundColor="Transparent" Keyboard="Numeric" MaxLength="2" />
+                        <Entry Margin="20,20,0,0" Placeholder="input here..." BackgroundColor="Transparent" PlaceholderColor="LightGray" TextColor="Black" Keyboard="Numeric" MaxLength="2" />
                     </StackLayout>
 
                     <ContentView Margin="20,20,20,10">
@@ -57,12 +57,8 @@
                             <TapGestureRecognizer Tapped="BtnOK_OnTapped" />
                         </ContentView.GestureRecognizers>
 
-                        <Frame x:Name="frm" CornerRadius="10" BackgroundColor="Black" HasShadow="False" Grid.Column="1" Padding="8,16" Margin="0" VerticalOptions="CenterAndExpand" InputTransparent="True" IsClippedToBounds="True">
-                            <StackLayout Spacing="0" HeightRequest="30" HorizontalOptions="CenterAndExpand" Orientation="Horizontal" InputTransparent="true">
-                                <ActivityIndicator x:Name="actInd" WidthRequest="35" IsVisible="false" IsRunning="False" Color="White" VerticalOptions="CenterAndExpand" InputTransparent="true" />
-                                <Label x:Name="lbl" Text="Apply" TextColor="Black" FontSize="15" FontFamily="Roboto-Medium" MaxLines="1" VerticalOptions="CenterAndExpand" InputTransparent="true" />
-                            </StackLayout>
-
+                        <Frame x:Name="frm" CornerRadius="10" BackgroundColor="Black" HasShadow="False" Grid.Column="1" Padding="8,19" Margin="0" VerticalOptions="CenterAndExpand" InputTransparent="True" IsClippedToBounds="True">
+                            <Label x:Name="lbl" Text="Apply" TextColor="White" FontSize="15" FontFamily="Roboto-Medium" MaxLines="1" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Center" InputTransparent="true" />
                         </Frame>
                     </ContentView>
                 </StackLayout>

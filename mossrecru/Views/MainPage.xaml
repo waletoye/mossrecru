@@ -4,10 +4,10 @@
     <AbsoluteLayout>
         <Grid RowDefinitions="*, 1.8*" Margin="30,10,20,10" AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All">
             <StackLayout VerticalOptions="CenterAndExpand" Spacing="5">
-                <Image Source="mossad" WidthRequest="45" HorizontalOptions="StartAndExpand" />
-                <Label Text="Global &#x0a;Developers" FontSize="28" VerticalOptions="Center" FontFamily="Roboto-Medium" />
+                <Image Source="mossad" WidthRequest="50" HorizontalOptions="StartAndExpand" />
+                <Label Text="Global &#x0a;Developers" FontSize="27" VerticalOptions="Center" FontFamily="Roboto-Medium" />
                 <Frame HasShadow="False" Padding="5,2" BackgroundColor="#f5f5f5" CornerRadius="2" HorizontalOptions="StartAndExpand">
-                    <Label Text="Swipe left or right" FontSize="11" FontFamily="Roboto-Thin" />
+                    <Label Text="Swipe left or right" FontSize="10" FontFamily="Roboto-Thin" />
                 </Frame>
             </StackLayout>
 
