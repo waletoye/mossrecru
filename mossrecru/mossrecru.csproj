@@ -13,15 +13,51 @@
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="MonkeyCache.FileStore" Version="1.5.2" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.12" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Models\" />
     <None Remove="Views\" />
     <None Remove="ViewModels\" />
+    <None Remove="Assets\" />
+    <None Remove="Assets\fonts\" />
+    <None Remove="Assets\Fonts\Roboto-Light.ttf" />
+    <None Remove="Newtonsoft.Json" />
+    <None Remove="Assets\Fonts\Roboto-Medium.ttf" />
+    <None Remove="Assets\Fonts\Roboto-Regular.ttf" />
+    <None Remove="Assets\Fonts\Roboto-Bold.ttf" />
+    <None Remove="Assets\Fonts\Roboto-Thin.ttf" />
+    <None Remove="Assets\Images\mossad.png" />
+    <None Remove="Utilities\" />
+    <None Remove="Settings\" />
+    <None Remove="Microsoft.CSharp" />
+    <None Remove="MonkeyCache.FileStore" />
+    <None Remove="MonkeyCache.LiteDB" />
+    <None Remove="Rg.Plugins.Popup" />
+    <None Remove="Views\Popups\" />
+    <None Remove="Views\UserControls\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Views\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="Assets\" />
+    <Folder Include="Assets\Fonts\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="Settings\" />
+    <Folder Include="Views\Popups\" />
+    <Folder Include="Views\UserControls\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="mossrecru.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Fonts\Roboto-Medium.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\Roboto-Regular.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\Roboto-Bold.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\Roboto-Thin.ttf" />
   </ItemGroup>
 </Project>

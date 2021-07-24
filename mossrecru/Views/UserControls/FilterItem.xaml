@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="mossrecru.Views.UserControls.FilterItem">
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer Tapped="On_Tapped"/>
+    </ContentView.GestureRecognizers>
+
+    <Frame x:Name="frm" BackgroundColor="Transparent" BorderColor="Silver" Padding="11" CornerRadius="0" HasShadow="False" VerticalOptions="StartAndExpand" InputTransparent="True">
+        <StackLayout Spacing="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" InputTransparent="True">
+            <Label x:Name="lblTitle" Text="Last 7 Days" FontSize="13" FontFamily="Roboto-Regular" TextColor="Black" InputTransparent="True"/>
+        </StackLayout>
+    </Frame>
+</ContentView>
