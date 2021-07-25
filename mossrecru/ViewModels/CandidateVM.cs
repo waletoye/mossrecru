@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -78,7 +79,7 @@ namespace mossrecru.ViewModels
                 }
                 else
                 {
-                    int a = 2;
+                    Debug.Write(candidate.CandidateId);
                 }
             }
 
@@ -112,7 +113,7 @@ namespace mossrecru.ViewModels
 
 
         /// <summary>
-        /// Accept or reject a candidate
+        /// Accept or reject a candidate, cache the candidateID
         /// </summary>
         /// <param name="bindingContext"></param>
         /// <param name="isAccepted"></param>
@@ -121,15 +122,17 @@ namespace mossrecru.ViewModels
             var candidate = bindingContext as Models.CandidateModel;
 
             candidate.Status = isAccepted ? Models.CandidateModel.AcceptanceStatus.Accepted : Models.CandidateModel.AcceptanceStatus.Rejected;
-
             CandidateSource.Remove(candidate);
 
             //update AllCandidates
             var item = AllCandidates.Where(x => x.CandidateId == candidate.CandidateId).First();
             item.Status = candidate.Status;
 
+
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CandidateSource"));
 
+
+            //cache the candidate for persistent filtering
             Models.DataStore.Cache.AddUser(candidate, isAccepted: isAccepted);
         }
 
@@ -149,7 +152,7 @@ namespace mossrecru.ViewModels
             }
             else if (title == "accepted only")
             {
-                var source = AllCandidates.Where(x => x.Status == Models.CandidateModel.AcceptanceStatus.Accepted);
+                var source = Models.DataStore.Cache.GetAcceptedCandidates();
                 CandidateSource = new ObservableCollection<Models.CandidateModel>(source);
             }
 

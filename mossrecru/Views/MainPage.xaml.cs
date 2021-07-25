@@ -39,17 +39,19 @@ namespace mossrecru.Views
             }
         }
 
-        private async void LoadCandidates()
+        private async Task LoadCandidates()
         {
             //ensure no network issues
             if (!await CheckNetwork())
                 return;
 
             IsLoading = true;
+            lblError.Text = "Loading secret developers directory...";
 
             var result = await vm.LoadCandidates();
 
             IsLoading = false;
+            lblError.Text = "No developers left...";
 
             if (!result.isSuccessful && string.IsNullOrWhiteSpace(result.message))
             {
@@ -62,12 +64,19 @@ namespace mossrecru.Views
             {
                 await DisplayAlert("Try Again", result.message, "Ok");
             }
+            else
+            {
+                hasLoaded = true;
+            }
         }
+
+        bool hasLoaded;
 
         private async Task<bool> CheckNetwork()
         {
             if (Xamarin.Essentials.Connectivity.NetworkAccess != Xamarin.Essentials.NetworkAccess.Internet)
             {
+                lblError.Text = "Check your network connection...";
                 await DisplayAlert("No network", "Please check your network connection", "ok");
                 return false;
             }
@@ -110,6 +119,16 @@ namespace mossrecru.Views
         {
             if (IsLoading)
                 return;
+
+            //if data is not loaded and there's no network, stop
+            if (!hasLoaded && !await CheckNetwork())
+                return;
+
+            //if data is not loaded and there's network, reload data
+            if (!hasLoaded && await CheckNetwork())
+            {
+                await LoadCandidates();
+            }
 
             filterPopup = filterPopup ?? new Popups.Filter(vm);
             await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(filterPopup);

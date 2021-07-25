@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using MonkeyCache.FileStore;
 
 namespace mossrecru.Utilities
@@ -8,6 +10,8 @@ namespace mossrecru.Utilities
         public Cache()
         {
             Barrel.ApplicationId = "mossrecru";
+
+            // var count = Count;
         }
 
         public bool UserExists(Guid candidateId)
@@ -20,8 +24,8 @@ namespace mossrecru.Utilities
             if (!UserExists(candidateId))
                 return false;
 
-            var user = Barrel.Current.Get<Models.CacheDTO>(key: candidateId.ToString());
-            return user.IsAccepted;
+            var user = Barrel.Current.Get<Models.CandidateModel>(key: candidateId.ToString());
+            return user.Status == Models.CandidateModel.AcceptanceStatus.Accepted;
         }
 
         public bool UserAlreadyRejected(Guid candidateId)
@@ -29,20 +33,41 @@ namespace mossrecru.Utilities
             if (!UserExists(candidateId))
                 return false;
 
-            var user = Barrel.Current.Get<Models.CacheDTO>(key: candidateId.ToString());
-            return !user.IsAccepted;
+            var user = Barrel.Current.Get<Models.CandidateModel>(key: candidateId.ToString());
+            return user.Status == Models.CandidateModel.AcceptanceStatus.Rejected;
         }
 
         public void AddUser(Models.CandidateModel candidate, bool isAccepted)
         {
-            var user = new Models.CacheDTO
-            {
-                FullName = candidate.FullName,
-                IsAccepted = isAccepted
-            };
-
             //never expiress?
-            Barrel.Current.Add(key: candidate.CandidateId.ToString(), data: user, expireIn: TimeSpan.FromDays(365));
+            Barrel.Current.Add(key: candidate.CandidateId.ToString(), data: candidate, expireIn: TimeSpan.FromDays(Settings.AppSettings.DBExpiry));
         }
+
+        public List<Models.CandidateModel> GetAcceptedCandidates()
+        {
+            var keys = Barrel.Current.GetKeys(MonkeyCache.CacheState.Active);
+
+            var candidates = new List<Models.CandidateModel>();
+
+            foreach (var key in keys)
+            {
+                var candidate = GetUser(Guid.Parse(key));
+
+                if (candidate != null && candidate.Status == Models.CandidateModel.AcceptanceStatus.Accepted)
+                    candidates.Add(candidate);
+            }
+
+            return candidates;
+        }
+
+        private Models.CandidateModel GetUser(Guid candidateId)
+        {
+            if (!UserExists(candidateId))
+                return null;
+
+            return Barrel.Current.Get<Models.CandidateModel>(key: candidateId.ToString());
+        }
+
+        private int Count => Barrel.Current.GetKeys(MonkeyCache.CacheState.Active).Count();
     }
 }

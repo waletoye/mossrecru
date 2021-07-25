@@ -84,7 +84,7 @@
                     <Grid>
                         <StackLayout Spacing="0" Margin="0,30,0,0" Orientation="Horizontal" VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand">
                             <!--<Image Source="info" WidthRequest="32" VerticalOptions="StartAndExpand" />-->
-                            <Label x:Name="lblError" Text="No developers left." FontFamily="Roboto-Regular" TextColor="DarkBlue" FontSize="14" VerticalTextAlignment="Center" />
+                            <Label x:Name="lblError" Text="Loading secret developers directory..." FontFamily="Roboto-Regular" TextColor="DarkBlue" FontSize="14" VerticalTextAlignment="Center" />
                         </StackLayout>
                     </Grid>
                 </CollectionView.EmptyView>
@@ -110,8 +110,8 @@
             </Frame.GestureRecognizers>
 
             <Grid>
-                <ActivityIndicator x:Name="actInd" IsRunning="True" Color="White" VerticalOptions="FillAndExpand" />
-                <Image x:Name="filterIcon" IsVisible="False" Source="filter" WidthRequest="20" VerticalOptions="CenterAndExpand" />
+                <ActivityIndicator x:Name="actInd" IsRunning="False" Color="White" VerticalOptions="FillAndExpand" />
+                <Image x:Name="filterIcon" Source="filter" WidthRequest="20" VerticalOptions="CenterAndExpand" />
             </Grid>
         </Frame>
     </AbsoluteLayout>
