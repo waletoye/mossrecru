@@ -7,6 +7,9 @@ namespace mossrecru.ViewModels
     {
         public virtual event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// base view model
+        /// </summary>
         public BaseVM()
         {
             Models.DataStore.Candidates = Models.DataStore.Candidates ?? new System.Collections.Generic.List<Models.CandidateModel>();

@@ -7,8 +7,17 @@ namespace mossrecru.Models
 {
     public class CandidateModel
     {
-        //internal AcceptanceStatus Status { get; set; }
+        public CandidateModel()
+        {
+            //do not allow swipe for acceptedOnly
+            //AllowSwipe = true;
+            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AllowSwipe"));
+        }
+        public AcceptanceStatus Status { get; set; }
 
+        public bool AllowSwipe => Status == default;
+
+        //AllowSwipe = false;
         public Guid CandidateId { get; set; }
 
         public string FullName { get; set; }
@@ -20,6 +29,9 @@ namespace mossrecru.Models
         public int Gender { get; set; }
 
         public string Sex => Gender == 0 ? "Male" : "Female";
+
+
+
 
         public Uri ProfilePicture { get; set; }
 
@@ -64,18 +76,18 @@ namespace mossrecru.Models
             public Guid TechnologyId { private get; set; }
 
             [JsonProperty("yearsOfExperience")]
-            public int YearsOfExperience { private get; set; }
+            public int YearsOfExperience { internal get; set; }
 
             public string Technology => Models.DataStore.Technologies.Where(x => x.TechnologyId == TechnologyId).Select(x => x.Name).FirstOrDefault();
 
             public string Description => $"{Technology} - {YearsOfExperience}yrs";
         }
 
-        //public enum AcceptanceStatus
-        //{
-        //    Selected,
-        //    Rejected,
-        //    None
-        //}
+        public enum AcceptanceStatus
+        {
+            None,
+            Accepted,
+            Rejected
+        }
     }
 }

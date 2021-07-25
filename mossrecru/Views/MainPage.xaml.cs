@@ -19,12 +19,37 @@ namespace mossrecru.Views
             LoadCandidates();
         }
 
+        private bool isLoading;
+        private bool IsLoading
+        {
+            get => isLoading;
+            set
+            {
+                isLoading = value;
+                if (value)
+                {
+                    actInd.IsRunning = true;
+                    filterIcon.IsVisible = false;
+                }
+                else
+                {
+                    actInd.IsRunning = false;
+                    filterIcon.IsVisible = true;
+                }
+            }
+        }
+
         private async void LoadCandidates()
         {
             //ensure no network issues
-            await CheckNetwork();
+            if (!await CheckNetwork())
+                return;
+
+            IsLoading = true;
 
             var result = await vm.LoadCandidates();
+
+            IsLoading = false;
 
             if (!result.isSuccessful && string.IsNullOrWhiteSpace(result.message))
             {
@@ -35,28 +60,19 @@ namespace mossrecru.Views
 
             if (!result.isSuccessful)
             {
-                await DisplayAlert("Try Again", result.message, "ok");
+                await DisplayAlert("Try Again", result.message, "Ok");
             }
         }
 
-        private async Task CheckNetwork()
+        private async Task<bool> CheckNetwork()
         {
             if (Xamarin.Essentials.Connectivity.NetworkAccess != Xamarin.Essentials.NetworkAccess.Internet)
             {
                 await DisplayAlert("No network", "Please check your network connection", "ok");
-                return;
+                return false;
             }
-        }
 
-        void cvDevelopers_SelectionChanged(System.Object sender, Xamarin.Forms.SelectionChangedEventArgs e)
-        {
-            //var item = e.CurrentSelection?.FirstOrDefault() as Models.Response.Notification.NotificationResponse.NotificationObject.Notification;
-
-            //if (item == null)
-            //{
-            //    cvDevelopers.SelectedItem = null;
-            //    return;
-            //}
+            return true;
         }
 
         void SwipeGestureRecognizer_Swiped(System.Object sender, Xamarin.Forms.SwipedEventArgs e)
@@ -71,7 +87,6 @@ namespace mossrecru.Views
                     break;
             }
         }
-
 
         private void GetSwipedElement(object bindingContext, bool isSelected)
         {
@@ -93,8 +108,14 @@ namespace mossrecru.Views
         Popups.Filter filterPopup;
         async void History_Tapped(System.Object sender, System.EventArgs e)
         {
-            // filterPopup = filterPopup ?? new Popups.Filter();
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new Popups.Filter());
+            if (IsLoading)
+                return;
+
+            filterPopup = filterPopup ?? new Popups.Filter(vm);
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(filterPopup);
+
+
+            //await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new Popups.Filter(vm));
             //await Navigation.PushAsync(new Popups.Filter());
         }
     }

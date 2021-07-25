@@ -25,8 +25,8 @@
                                 </Style>
                             </FlexLayout.Resources>
 
-                            <uc:FilterItem x:Name="fiAll" Title="Show All" />
-                            <uc:FilterItem x:Name="fiAccepted" Title="Accepted Only" />
+                            <uc:FilterItem x:Name="fiAll" Title="Show All" Tapped="ByStatus_Tapped" />
+                            <uc:FilterItem x:Name="fiAccepted" Title="Accepted Only" Tapped="ByStatus_Tapped"/>
                         </FlexLayout>
                     </StackLayout>
 
@@ -41,7 +41,7 @@
                                     </Style>
                                 </FlexLayout.Resources>
 
-                                <uc:FilterItem Title="Any" Value="0" />
+                                <uc:FilterItem Title="Any" Tapped="ByTech_Tapped" />
                             </FlexLayout>
                         </ScrollView>
 
@@ -49,12 +49,12 @@
 
                     <StackLayout Style="{StaticResource StackStyle}">
                         <Label Style="{StaticResource TitleStyle}" Text="By Years Of Experience" />
-                        <Entry Margin="20,20,0,0" Placeholder="input here..." BackgroundColor="Transparent" PlaceholderColor="LightGray" TextColor="Black" Keyboard="Numeric" MaxLength="2" />
+                        <Entry x:Name="txtYearsExp" Margin="20,20,0,0" Placeholder="input here..." BackgroundColor="Transparent" PlaceholderColor="LightGray" TextColor="Black" Keyboard="Numeric" MaxLength="2" />
                     </StackLayout>
 
                     <ContentView Margin="20,20,20,10">
                         <ContentView.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="BtnOK_OnTapped" />
+                            <TapGestureRecognizer Tapped="BtnApply_OnTapped" />
                         </ContentView.GestureRecognizers>
 
                         <Frame x:Name="frm" CornerRadius="10" BackgroundColor="Black" HasShadow="False" Grid.Column="1" Padding="8,19" Margin="0" VerticalOptions="CenterAndExpand" InputTransparent="True" IsClippedToBounds="True">

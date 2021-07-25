@@ -20,6 +20,10 @@ namespace mossrecru.ViewModels
         private List<Models.CandidateModel> AllCandidates { get; set; }
         private List<Models.TechnologyModel> AllTechnologies { get; set; }
 
+        /// <summary>
+        /// Load all candidates, check first if technologies data is available
+        /// </summary>
+        /// <returns></returns>
         internal async Task<(bool isSuccessful, string message)> LoadCandidates()
         {
             IsRunning = true;
@@ -56,6 +60,11 @@ namespace mossrecru.ViewModels
             return (false, "Service returned empty data for candidates");
         }
 
+        /// <summary>
+        /// Filter prevuously accepted or rejected
+        /// </summary>
+        /// <param name="candidates"></param>
+        /// <returns></returns>
         private List<Models.CandidateModel> FilterPreviouslySelectedUser(List<Models.CandidateModel> candidates)
         {
             var result = new List<Models.CandidateModel>();
@@ -76,6 +85,10 @@ namespace mossrecru.ViewModels
             return result.OrderBy(x => x.FullName).ToList();
         }
 
+        /// <summary>
+        /// Load all technologies for use with candidates model
+        /// </summary>
+        /// <returns></returns>
         private async Task<(bool isSuccessful, string message)> LoadTechnologies()
         {
             //if technologies, have been retrieved, continue to retrieve candidates
@@ -97,16 +110,83 @@ namespace mossrecru.ViewModels
             return (false, "Service returned empty data.");
         }
 
+
+        /// <summary>
+        /// Accept or reject a candidate
+        /// </summary>
+        /// <param name="bindingContext"></param>
+        /// <param name="isAccepted"></param>
         internal void ChangeCandidateStatus(object bindingContext, bool isAccepted)
         {
             var candidate = bindingContext as Models.CandidateModel;
 
-            //candidate.Status = isAccepted ? Models.CandidateModel.AcceptanceStatus.Selected : Models.CandidateModel.AcceptanceStatus.Rejected;
+            candidate.Status = isAccepted ? Models.CandidateModel.AcceptanceStatus.Accepted : Models.CandidateModel.AcceptanceStatus.Rejected;
 
             CandidateSource.Remove(candidate);
+
+            //update AllCandidates
+            var item = AllCandidates.Where(x => x.CandidateId == candidate.CandidateId).First();
+            item.Status = candidate.Status;
+
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CandidateSource"));
 
             Models.DataStore.Cache.AddUser(candidate, isAccepted: isAccepted);
         }
+
+
+        /// <summary>
+        /// Filter a candidate by accepted /all
+        /// </summary>
+        /// <param name="title">accepted or all</param>
+        internal void FilterByStatus(string title)
+        {
+            title = title.ToLower();
+
+            if (title == "show all")
+            {
+                var source = AllCandidates.Where(x => x.Status == default);//none
+                CandidateSource = new ObservableCollection<Models.CandidateModel>(source);
+            }
+            else if (title == "accepted only")
+            {
+                var source = AllCandidates.Where(x => x.Status == Models.CandidateModel.AcceptanceStatus.Accepted);
+                CandidateSource = new ObservableCollection<Models.CandidateModel>(source);
+            }
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CandidateSource"));
+        }
+
+
+        /// <summary>
+        /// Filter a candidate by experience and number of years of experience
+        /// </summary>
+        /// <param name="tech">tech stack</param>
+        /// <param name="exp">years of experience</param>
+        internal void FilterByTechAndExperience(string tech, string exp)
+        {
+            IEnumerable<Models.CandidateModel> source = AllCandidates;
+
+            int.TryParse(exp, out int yrOfExp);
+
+            //check tech
+            if (string.IsNullOrWhiteSpace(tech) || tech.ToLower() == "any")
+            {
+                source = source.Where(x => x.Experience != null && x.Experience.Any() && x.Status == default);
+            }
+            else
+            {
+                source = source.Where(x => x.Experience != null && x.Experience.Where(y => y.Technology == tech).Any() && x.Status == default);
+            }
+
+            //check experience, skip if less than one
+            if (yrOfExp > 0)
+            {
+                source = source.Where(x => x.Experience != null && x.Experience.Where(y => y.Technology == tech && y.YearsOfExperience == yrOfExp).Any() && x.Status == default);
+            }
+
+            CandidateSource = new ObservableCollection<Models.CandidateModel>(source);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CandidateSource"));
+        }
+
     }
 }

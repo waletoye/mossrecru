@@ -11,7 +11,7 @@
                 </Frame>
             </StackLayout>
 
-            <CollectionView x:Name="cvDevelopers" ItemsSource="{Binding CandidateSource}" SelectionChanged="cvDevelopers_SelectionChanged" Grid.Row="1" IsGrouped="False" SelectionMode="Single" VerticalScrollBarVisibility="Never" VerticalOptions="FillAndExpand">
+            <CollectionView x:Name="cvDevelopers" ItemsSource="{Binding CandidateSource}" Grid.Row="1" IsGrouped="False" SelectionMode="Single" VerticalScrollBarVisibility="Never" VerticalOptions="FillAndExpand">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="13" />
                 </CollectionView.ItemsLayout>
@@ -25,10 +25,10 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame CornerRadius="12" BorderColor="#f1f1f1" VerticalOptions="StartAndExpand" HasShadow="False" Padding="0" BackgroundColor="White" IsClippedToBounds="True">
-                            <SwipeView>
+                            <SwipeView IsEnabled="{Binding AllowSwipe}">
                                 <SwipeView.LeftItems>
                                     <SwipeItems Mode="Execute">
-                                        <SwipeItem Text="Choose" IconImageSource="choose.png"  BackgroundColor="LightGreen" Invoked="OnChooseSwipeItemInvoked" />
+                                        <SwipeItem Text="Choose" IconImageSource="choose.png" BackgroundColor="LightGreen" Invoked="OnChooseSwipeItemInvoked" />
                                     </SwipeItems>
                                 </SwipeView.LeftItems>
                                 <SwipeView.RightItems>
@@ -106,11 +106,13 @@
 
         <Frame Padding="0" AbsoluteLayout.LayoutBounds=".92,.96" AbsoluteLayout.LayoutFlags="PositionProportional" BackgroundColor="Black" BorderColor="White" CornerRadius="25" HeightRequest="50" WidthRequest="50" IsClippedToBounds="True">
             <Frame.GestureRecognizers>
-                <TapGestureRecognizer Tapped="History_Tapped"/>
+                <TapGestureRecognizer Tapped="History_Tapped" />
             </Frame.GestureRecognizers>
 
-            <!--<ActivityIndicator IsRunning="{Binding IsRunning}" Color="White" VerticalOptions="FillAndExpand" />-->
-            <Image Source="filter" WidthRequest="20" VerticalOptions="CenterAndExpand"/>
+            <Grid>
+                <ActivityIndicator x:Name="actInd" IsRunning="True" Color="White" VerticalOptions="FillAndExpand" />
+                <Image x:Name="filterIcon" IsVisible="False" Source="filter" WidthRequest="20" VerticalOptions="CenterAndExpand" />
+            </Grid>
         </Frame>
     </AbsoluteLayout>
 
