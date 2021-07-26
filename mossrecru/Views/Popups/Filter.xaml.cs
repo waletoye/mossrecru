@@ -52,15 +52,15 @@ namespace mossrecru.Views.Popups
         UserControls.FilterItem byStatus;
         async void ByStatus_Tapped(System.Object sender, System.EventArgs e)
         {
-            if (sender == byStatus)
-                return;
+            //if (sender == byStatus)
+            //    return;
 
             //deselect former
-            if (byStatus != null)
+            if (byStatus != null && sender != byStatus)
                 byStatus.DeSelect();
 
             //deselect tech
-            if (byTech != null)
+            if (byTech != null && sender != byTech)
                 byTech.DeSelect();
 
             txtYearsExp.Text = "";
@@ -103,6 +103,13 @@ namespace mossrecru.Views.Popups
 
             if (byTech != null)
                 tech = byTech.Title;
+
+            //if no selection, showAll instead
+            if (byTech == null && string.IsNullOrWhiteSpace(txtYearsExp.Text))
+            {
+                fiAll.Select();
+                return;
+            }
 
             vm.FilterByTechAndExperience(byTech.Title, txtYearsExp.Text);
             await GoBack();
