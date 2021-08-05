@@ -6,5 +6,7 @@ namespace mossrecru.Settings
         internal static string BaseIPAddress => "https://app.ifs.aero/EternalBlue/api";
 
         internal static int DBExpiry => 365;
+
+        internal static bool UseSoapService => true;
     }
 }

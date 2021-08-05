@@ -24,6 +24,8 @@ namespace mossrecru.iOS
         {
             Rg.Plugins.Popup.Popup.Init();
             global::Xamarin.Forms.Forms.Init();
+
+            Models.DataStore.DataManger = new Models.DataManger(new SoapService());
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

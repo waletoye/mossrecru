@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors" />
+    <Reference Include="System.Web.Services" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />
@@ -69,11 +70,20 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Web References\app.ifs.aero\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="SoapService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
+    <None Include="Web References\app.ifs.aero\RecruitmentService.wsdl" />
+    <None Include="Web References\app.ifs.aero\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\styles.xml" />
@@ -119,6 +129,16 @@
       <Project>{F977FE10-644D-4A9A-9BA4-46FE7E160470}</Project>
       <Name>mossrecru</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="https://app.ifs.aero/EternalBlue/recruitment.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\app.ifs.aero</RelPath>
+      <UpdateFromURL>https://app.ifs.aero/EternalBlue/recruitment.asmx</UpdateFromURL>
+    </WebReferenceUrl>
   </ItemGroup>
  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

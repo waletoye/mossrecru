@@ -12,6 +12,7 @@ namespace mossrecru.ViewModels
     {
         public override event PropertyChangedEventHandler PropertyChanged;
 
+
         public CandidateVM()
         {
 
@@ -37,8 +38,13 @@ namespace mossrecru.ViewModels
                 return (false, "could not retrieve technoliges.");
             }
 
+            List<Models.CandidateModel> result;
 
-            var result = await Context.GetRequest<List<Models.CandidateModel>>(endPoint: "/candidates");
+            if (!Settings.AppSettings.UseSoapService)
+                result = await Context.GetRequest<List<Models.CandidateModel>>(endPoint: "/candidates");
+            else
+                result = await Models.DataStore.DataManger.GetCandidates();
+
 
             if (result == null)
                 return (false, null);
@@ -96,7 +102,14 @@ namespace mossrecru.ViewModels
             if (AllTechnologies != null && AllTechnologies.Any())
                 return (true, "success");
 
-            var result = await Context.GetRequest<List<Models.TechnologyModel>>(endPoint: "/technologies");
+
+            List<Models.TechnologyModel> result;
+
+            if (!Settings.AppSettings.UseSoapService)
+                result = await Context.GetRequest<List<Models.TechnologyModel>>(endPoint: "/technologies");
+            else
+                result = await Models.DataStore.DataManger.GetTechnologies();
+
 
             if (result == null)
                 return (false, null);

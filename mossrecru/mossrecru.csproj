@@ -39,6 +39,7 @@
     <None Remove="Rg.Plugins.Popup" />
     <None Remove="Views\Popups\" />
     <None Remove="Views\UserControls\" />
+    <None Remove="mscorlib" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

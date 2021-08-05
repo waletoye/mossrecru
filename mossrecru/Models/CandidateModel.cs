@@ -55,7 +55,11 @@ namespace mossrecru.Models
                 if (!string.IsNullOrWhiteSpace(developerProfile))
                     return developerProfile;
 
-                var builder = new StringBuilder();
+                var builder = new StringBuilder(); //time 0(1)
+
+                //var as = new List<int>(); hastable
+
+                //string[]
 
                 foreach (History history in Experience)
                 {
