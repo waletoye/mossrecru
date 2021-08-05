@@ -111,6 +111,14 @@ namespace mossrecru.Views.Popups
                 return;
             }
 
+            //if no selection
+            if (byTech == null)
+            {
+                await DisplayAlert("Try Again", "Choose a technology", "Ok");
+                await GoBack();
+                return;
+            }
+
             vm.FilterByTechAndExperience(byTech.Title, txtYearsExp.Text);
             await GoBack();
         }

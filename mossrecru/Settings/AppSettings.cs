@@ -7,6 +7,6 @@ namespace mossrecru.Settings
 
         internal static int DBExpiry => 365;
 
-        internal static bool UseSoapService => true;
+        internal static bool UseSoapService => false;
     }
 }
